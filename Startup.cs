@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorWebPool.Areas.Identity;
 using BlazorWebPool.Data;
+using Microsoft.Extensions.Options;
 
 namespace BlazorWebPool
 {
@@ -40,6 +41,13 @@ namespace BlazorWebPool
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddSingleton<WeatherForecastService>();
+            services.AddAuthentication()
+                .AddGoogle(Options =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    Options.ClientId = googleAuthNSection["ClientId"];
+                    Options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
