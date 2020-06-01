@@ -1,0 +1,16 @@
+﻿<!-- Parent Component -->
+
+<ChildTest OnClick="ClickHandler"></ChildTest>
+
+<p>@message</p>
+
+@code {
+
+    string message = "Hello from ParentComponent";
+
+    void ClickHandler(string newMessage)
+    {
+        message = newMessage;
+    }
+
+}

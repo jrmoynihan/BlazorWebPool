@@ -8,12 +8,15 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
+            <!-- NavLink components explained: https://docs.microsoft.com/en-us/aspnet/core/blazor/routing?view=aspnetcore-3.1#navlink-component -->
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
+            <!-- href strings are case-insensitive, so counter finds the URL "/Counter[.razor]" within the site and tries to navigate to it
+                The .razor component [page] must have the page<NameOfPage> tag for the browser to navigate to it-->
+            <NavLink class="nav-link" href="Counter">
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
             </NavLink>
         </li>
@@ -25,6 +28,8 @@
     </ul>
 </div>
 
+<!--When the div above is clicked, this sets its class dynamically to "collapse" or "null" (default is "collapse" prior to being clicked)
+    If it returns "collapse", setting the div's class, the div element will be formatted if under certain mobile media queries in the site.CSS -->
 @code {
     private bool collapseNavMenu = true;
 

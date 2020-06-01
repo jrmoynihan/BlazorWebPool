@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BlazorWebPool.Areas.Identity;
+using BlazorWebPool.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BlazorWebPool.Areas.Identity;
-using BlazorWebPool.Data;
-using Microsoft.Extensions.Options;
+using Syncfusion.Blazor;
 
 namespace BlazorWebPool
 {
@@ -35,12 +28,14 @@ namespace BlazorWebPool
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>() /*(options => options.SignIn.RequireConfirmedAccount = true)*/
+                .AddRoles<IdentityRole>() //Enable roles
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSyncfusionBlazor();
             services.AddAuthentication()
                 .AddGoogle(Options =>
                 {
@@ -53,6 +48,9 @@ namespace BlazorWebPool
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Register Syncfusion License
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MjY1MjE2QDMxMzgyZTMxMmUzMFNFaWQ5dGNQVVRPcm96ZnYwTlFDUnNWU1JmMWFDYTI4c01ha3RCTGozSTQ9");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
